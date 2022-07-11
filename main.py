@@ -36,7 +36,7 @@ def grep_duplicates():
     for email in email_duplicates():
         print(f'<<<<<< We found duplicates of {email} in these files>>>>>>>\n')
         subprocess.call(['grep', '-r', email, './' + LOOCKUP_DIR])
-        print("\n>>>>>>>>>>>>>><<<<<<<<<<<<<<\n\n")
+        print("\n\n")
 
 
 if __name__ == '__main__':
