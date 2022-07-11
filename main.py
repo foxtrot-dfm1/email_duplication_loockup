@@ -1,5 +1,4 @@
 import os
-import subprocess
 import collections
 import csv
 import asyncio
@@ -36,24 +35,25 @@ async def parse_user(filename):
 def email_duplicates():
     return [(count, item) for item, count in collections.Counter(emails).items() if count > 1]
 
-def email_validator(email):
+def email_validator(email, counter):
     try:
         validate_email(email)
     except:
+        counter += 1
         return 'Unvalid'
 
     return 'Valid'
 
 def grep_duplicates():
-    for count, email in email_duplicates():
-        print(f'<<<<<< We found {count} duplicates of {email} in these files:>>>>>>>\n')
-        
-        subprocess.call(['grep', '-r', email, './' + LOOCKUP_DIR])
-        
-        print("\n")
-        print(f"Validation {email}: {email_validator(email)}")
-        print("\n\n")
+    duplicates = email_duplicates()
+    unvalid_counter = 0
 
+    print(f"\nEmail duplicates total: {len(duplicates)}\n")
+
+    for count, email in email_duplicates():
+        print(f'{email}, entries: {count}, validation: {email_validator(email, unvalid_counter)}')
+
+    print(f"\nEmail unvalid total: {unvalid_counter}\n")
 
 
 if __name__ == '__main__':
