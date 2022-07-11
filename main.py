@@ -3,12 +3,10 @@ import subprocess
 import collections
 import csv
 import asyncio
-import io
 
-
-from contextlib import redirect_stdout
 from email_validator import validate_email
 from functools import lru_cache
+
 
 LOOCKUP_DIR = 'loockup'
 
@@ -40,17 +38,12 @@ def email_duplicates():
 
 def email_validator(email):
     try:
-        res = validate_email(email)
+        validate_email(email)
+        res = True
     except:
-        res = False
-
-    if res == None:
-        raise Exception('Validation error')
-    
-    if res:
-        return 'Valid'
-    else:
         return 'Unvalid'
+
+    return 'Valid'
 
 def grep_duplicates():
     for count, email in email_duplicates():
