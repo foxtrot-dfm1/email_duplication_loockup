@@ -4,6 +4,7 @@ import collections
 import csv
 import asyncio
 
+
 LOOCKUP_DIR = 'loockup'
 
 emails = []
@@ -37,10 +38,7 @@ def grep_duplicates():
         subprocess.call(['grep', '-r', email, './' + LOOCKUP_DIR])
         print("\n>>>>>>>>>>>>>><<<<<<<<<<<<<<\n\n")
 
-def main():
-    parsers_run()
-    grep_duplicates()
-
 
 if __name__ == '__main__':
-    main()
+    parsers_run()
+    grep_duplicates()
