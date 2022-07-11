@@ -39,7 +39,6 @@ def email_duplicates():
 def email_validator(email):
     try:
         validate_email(email)
-        res = True
     except:
         return 'Unvalid'
 
