@@ -54,6 +54,7 @@ def grep_duplicates():
     print(f"\nEmail unvalid total: {unvalid_counter}\n")
 
     print("Pretty copy/paste:\n")
+
     for _, email in duplicates:
         print(f'{email}')
 
