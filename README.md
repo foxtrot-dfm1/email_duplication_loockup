@@ -8,8 +8,12 @@ id,email,is_active,creation_date
 
 Usage: 
 ======
-- Put fiels needed to be parsed in the folder ./loockup
-- then run this command:
+- Put files to parse in the folder ./loockup
+- Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+- Then run this command:
 ```bash
 python3 main.py
 ```
