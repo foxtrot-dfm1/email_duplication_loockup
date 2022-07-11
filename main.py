@@ -4,7 +4,6 @@ import csv
 import asyncio
 
 from email_validator import validate_email
-from functools import lru_cache
 
 
 LOOCKUP_DIR = 'loockup'
@@ -31,7 +30,6 @@ async def parse_user(filename):
         
         return [field[1] for field in reader if field[1] != 'email']
 
-@lru_cache(maxsize=None)
 def email_duplicates():
     return [(count, item) for item, count in collections.Counter(emails).items() if count > 1]
 
@@ -50,7 +48,7 @@ def grep_duplicates():
 
     print(f"\nEmail duplicates total: {len(duplicates)}\n")
 
-    for count, email in email_duplicates():
+    for count, email in duplicates:
         print(f'{email}, entries: {count}, validation: {email_validator(email, unvalid_counter)}')
 
     print(f"\nEmail unvalid total: {unvalid_counter}\n")
