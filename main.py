@@ -3,7 +3,12 @@ import subprocess
 import collections
 import csv
 import asyncio
+import io
 
+
+from contextlib import redirect_stdout
+from email_validator import validate_email
+from functools import lru_cache
 
 LOOCKUP_DIR = 'loockup'
 
@@ -29,14 +34,34 @@ async def parse_user(filename):
         
         return [field[1] for field in reader if field[1] != 'email']
 
+@lru_cache(maxsize=None)
 def email_duplicates():
-    return [item for item, count in collections.Counter(emails).items() if count > 1]
+    return [(count, item) for item, count in collections.Counter(emails).items() if count > 1]
+
+def email_validator(email):
+    try:
+        res = validate_email(email)
+    except:
+        res = False
+
+    if res == None:
+        raise Exception('Validation error')
+    
+    if res:
+        return 'Valid'
+    else:
+        return 'Unvalid'
 
 def grep_duplicates():
-    for email in email_duplicates():
-        print(f'<<<<<< We found duplicates of {email} in these files>>>>>>>\n')
+    for count, email in email_duplicates():
+        print(f'<<<<<< We found {count} duplicates of {email} in these files:>>>>>>>\n')
+        
         subprocess.call(['grep', '-r', email, './' + LOOCKUP_DIR])
+        
+        print("\n")
+        print(f"Validation {email}: {email_validator(email)}")
         print("\n\n")
+
 
 
 if __name__ == '__main__':
